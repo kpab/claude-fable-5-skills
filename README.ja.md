@@ -1,6 +1,6 @@
 # claude-fable-5-skills
 
-**Claude Fable 5 のための実戦的 Agent Skills 10選** — 旧世代モデルの「お世話」前提ではなく、Mythosクラスの新モデルが実際にどう振る舞うかを起点に設計した、最初のスキルコレクションです。
+**Claude Fable 5 のための実戦的 Agent Skills 10選** — 旧世代モデルの「お世話」前提ではなく、Claude Fable 5 が実際にどう振る舞うかを起点に設計した、最初のスキルコレクションです。
 
 [English README →](README.md)
 
