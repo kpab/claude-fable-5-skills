@@ -25,7 +25,14 @@ Works with **Claude Code, Claude Cowork, Cursor, Copilot, Gemini CLI**, and any 
 
 ## Install
 
-**Claude Code** — copy any skill folder into your skills directory:
+**Claude Code (recommended)** — install as a plugin, get updates automatically:
+
+```
+/plugin marketplace add kpab/claude-fable-5-skills
+/plugin install fable5-skills@claude-fable-5-skills
+```
+
+**Manual** — copy any skill folder into your skills directory:
 
 ```bash
 git clone https://github.com/kpab/claude-fable-5-skills

@@ -25,7 +25,14 @@
 
 ## インストール
 
-**Claude Code** — スキルフォルダをスキルディレクトリへコピーするだけ:
+**Claude Code(推奨)** — プラグインとしてインストール(更新も自動追従):
+
+```
+/plugin marketplace add kpab/claude-fable-5-skills
+/plugin install fable5-skills@claude-fable-5-skills
+```
+
+**手動** — スキルフォルダをスキルディレクトリへコピー:
 
 ```bash
 git clone https://github.com/kpab/claude-fable-5-skills
