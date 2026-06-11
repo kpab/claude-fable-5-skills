@@ -1,0 +1,32 @@
+---
+name: effort-calibrator
+description: Choose and tune the effort setting for Claude Fable 5 workloads. Use whenever the user asks which effort level to use, complains that Fable 5 is slow or expensive, wants to cut latency or token cost, or is designing a pipeline/harness that mixes routine and hard tasks. Also use when reviewing API code that sets output_config.effort.
+---
+
+# Effort Calibrator
+
+On Fable 5, effort is the primary dial trading intelligence against latency and cost. Defaults that were right for earlier models are usually wrong here: Fable 5 at lower effort frequently beats earlier models at their maximum, so over-provisioning effort wastes money and time without adding quality.
+
+## Starting points by workload
+
+| Workload | Start at |
+|---|---|
+| Routine transforms, classification, short edits, chat | `medium` (try `low` if latency matters) |
+| Most coding, analysis, writing | `high` (the general default) |
+| Hardest capability-sensitive work: large migrations, multi-day autonomous runs, novel research | `xhigh` |
+
+## Adjustment signals
+
+Lower effort when:
+- Tasks complete correctly but take longer than the work warrants
+- The session is interactive and waiting hurts more than marginal quality helps
+- Output shows over-deliberation: long context-gathering before trivial actions
+
+Raise effort when:
+- First-shot correctness matters more than turnaround (one-way-door changes, unattended runs)
+- The task benefits from rigorous self-verification, which higher effort does noticeably better
+- A task failed at the current level in a way that looks like shallow reasoning, not missing information
+
+## Pipeline pattern
+
+Route by task class, not by a single global setting: a triage step at `low`/`medium` that escalates hard cases to `high`/`xhigh` usually dominates any fixed choice on both cost and quality. Verify with the current API reference before shipping parameter names or values: https://platform.claude.com/docs/en/build-with-claude/effort
