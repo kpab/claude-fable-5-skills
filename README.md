@@ -1,6 +1,6 @@
 # claude-fable-5-skills
 
-**10 battle-ready Agent Skills for Claude Fable 5** — the first skill collection designed around how the new Mythos-class model actually behaves, not how older models needed to be babysat.
+**10 battle-ready Agent Skills for Claude Fable 5** — the first skill collection designed around how Claude Fable 5 actually behaves, not how older models needed to be babysat.
 
 [日本語版 README はこちら →](README.ja.md)
 
