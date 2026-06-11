@@ -41,6 +41,15 @@ cp -r claude-fable-5-skills/skills/act-when-ready ~/.claude/skills/
 
 Or cherry-pick per project by placing folders under `.claude/skills/` in the repo. Other harnesses: point your skill loader at the `skills/` directory; each skill is a self-contained folder with one `SKILL.md`.
 
+## How the skills activate
+
+Four skills are task-shaped and trigger automatically when a matching request appears: `skill-refactorer`, `effort-calibrator`, `subagent-orchestration`, `markdown-memory`.
+
+The other six are standing behavioral rules. A model that is mid-over-planning won't reliably decide to invoke `act-when-ready` on its own, so don't count on auto-triggering for these. Two reliable paths:
+
+- **Interactive sessions** — invoke explicitly (e.g. `/act-when-ready`) at the start of the session, or the moment the symptom shows up.
+- **Unattended pipelines and always-on use** — copy the skill body into your system prompt or `CLAUDE.md`; this is how Anthropic's own Fable 5 guide ships these patterns. `autonomous-continuation` is written for exactly this.
+
 ## Design principles
 
 1. **Intent over procedure.** Fable 5 follows instructions strictly; we state outcomes and boundaries, not step-by-step recipes.

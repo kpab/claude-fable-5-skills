@@ -41,6 +41,15 @@ cp -r claude-fable-5-skills/skills/act-when-ready ~/.claude/skills/
 
 プロジェクト単位なら、リポジトリ内の `.claude/skills/` 配下に必要なフォルダを置いてください。他のハーネスでは `skills/` ディレクトリをスキルローダーに読ませれば動きます(各スキルは `SKILL.md` 1枚で自己完結)。
 
+## スキルの発動経路について
+
+`skill-refactorer` / `effort-calibrator` / `subagent-orchestration` / `markdown-memory` の4つはタスク型で、該当するリクエストが来れば自動で発動します。
+
+残り6つは「常時適用したい振る舞いルール」です。過剰計画の真っ最中のモデルが自発的に `act-when-ready` を呼ぶことは期待できないため、自動発動を当てにしないでください。確実な経路は2つ:
+
+- **対話セッション** — セッション冒頭、または症状が出た時点で明示的に起動(例: `/act-when-ready`)。
+- **無人パイプライン・常時適用** — スキル本文をシステムプロンプトや `CLAUDE.md` に転記。Anthropic 公式の Fable 5 ガイド自体がこの形でパターンを提供しています。`autonomous-continuation` はまさにこの用途向けに書かれています。
+
 ## 設計原則
 
 1. **手順ではなく意図。** Fable 5 は指示に厳密に従うため、ステップバイステップのレシピではなく、達成すべき結果と境界を書く。
