@@ -1,0 +1,16 @@
+name: skilldrift
+on:
+  schedule:
+    - cron: "0 0 * * *" # 毎日 09:00 JST に上流ドリフトをチェック
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: kpab/skilldrift@main
