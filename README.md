@@ -14,7 +14,7 @@ Works with **Claude Code, Claude Cowork, Cursor, Copilot, Gemini CLI**, and any 
 |---|-------|---------------|
 | 1 | [`skill-refactorer`](skills/skill-refactorer/SKILL.md) | **The meta-skill.** Audits your pre-Fable-5 skills/prompts, deletes capability-compensation scaffolding, keeps real guardrails. |
 | 2 | [`act-when-ready`](skills/act-when-ready/SKILL.md) | Over-planning at high effort: re-deriving settled facts, surveying options it won't pursue. |
-| 3 | [`effort-calibrator`](skills/effort-calibrator/SKILL.md) | Picking the right `effort` level per workload; Fable 5 at `medium` often beats older models at max. |
+| 3 | [`effort-calibrator`](skills/effort-calibrator/SKILL.md) | Picking the right `effort` level per workload; Fable 5 at lower effort often beats older models at `xhigh`. |
 | 4 | [`no-gold-plating`](skills/no-gold-plating/SKILL.md) | Diffs bigger than the ask: unrequested refactors, speculative abstractions, impossible-state error handling. |
 | 5 | [`grounded-progress`](skills/grounded-progress/SKILL.md) | Status reports on long runs must point at tool-result evidence — no more "tests passing" that never ran. |
 | 6 | [`scope-guard`](skills/scope-guard/SKILL.md) | "Diagnose" ≠ "fix". No unrequested actions, no state changes on pattern-matched evidence. |

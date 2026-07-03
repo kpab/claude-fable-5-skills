@@ -5,7 +5,7 @@ description: Choose and tune the effort setting for Claude Fable 5 workloads. Us
 
 # Effort Calibrator
 
-On Fable 5, effort is the primary dial trading intelligence against latency and cost. Defaults that were right for earlier models are usually wrong here: Fable 5 at lower effort frequently beats earlier models at their maximum, so over-provisioning effort wastes money and time without adding quality.
+On Fable 5, effort is the primary dial trading intelligence against latency and cost. Defaults that were right for earlier models are usually wrong here: Fable 5 at lower effort frequently beats earlier models at `xhigh`, so over-provisioning effort wastes money and time without adding quality.
 
 ## Starting points by workload
 
@@ -13,7 +13,7 @@ On Fable 5, effort is the primary dial trading intelligence against latency and 
 |---|---|
 | Routine transforms, classification, short edits, chat | `medium` (try `low` if latency matters) |
 | Most analysis and writing | `high` (the general default) |
-| Coding and agentic/tool-heavy work | `high`, escalating to `xhigh` for harder tasks — `xhigh` is the best setting for most coding/agentic work and is Claude Code's default |
+| Coding and agentic/tool-heavy work | `high` (the API default, and Claude Code's default on Fable 5), escalating to `xhigh` for the most capability-sensitive tasks — including workloads that ran at `xhigh` on earlier Opus models, start at `high` |
 | Hardest capability-sensitive work: large migrations, multi-day autonomous runs, novel research | `xhigh` |
 | Frontier problems only, where evals show headroom above `xhigh` and token spend is unconstrained | `max` |
 

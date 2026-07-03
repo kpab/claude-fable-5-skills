@@ -14,7 +14,7 @@
 |---|--------|--------------|
 | 1 | [`skill-refactorer`](skills/skill-refactorer/SKILL.md) | **目玉のメタスキル。** Fable 5 以前のスキル/プロンプトを監査し、旧モデルの能力不足を補うための足場(過剰指示)を削除、本物のガードレールだけを残す。 |
 | 2 | [`act-when-ready`](skills/act-when-ready/SKILL.md) | 高effort時の過剰計画。確定済み事実の再導出、選ばない選択肢の列挙をやめさせる。 |
-| 3 | [`effort-calibrator`](skills/effort-calibrator/SKILL.md) | ワークロード別の `effort` 設定指針。Fable 5 の `medium` は旧モデルの最大設定を上回ることも多い。 |
+| 3 | [`effort-calibrator`](skills/effort-calibrator/SKILL.md) | ワークロード別の `effort` 設定指針。Fable 5 は低めの effort でも旧モデルの `xhigh` を上回ることが多い。 |
 | 4 | [`no-gold-plating`](skills/no-gold-plating/SKILL.md) | 依頼より大きい差分。頼んでいないリファクタ、投機的な抽象化、起こり得ない状態へのエラー処理を抑止。 |
 | 5 | [`grounded-progress`](skills/grounded-progress/SKILL.md) | 長時間実行の進捗報告をツール実行結果という証拠に紐付ける。「テスト通りました(実行してない)」を根絶。 |
 | 6 | [`scope-guard`](skills/scope-guard/SKILL.md) | 「診断して」≠「直して」。未依頼アクションと、パターンマッチだけを根拠にした状態変更を防ぐ。 |
