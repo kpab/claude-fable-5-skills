@@ -9,7 +9,7 @@
         "repo": "kpab/claude-fable-5-skills",
         "ref": "main",
         "subdir": "skills/act-when-ready",
-        "commit": "cbb485116f0a7bc8d6903aa680baa172f2e2a5a6"
+        "commit": "345ca6a6393f7a07a60527ef6d1b400a3ca073ab"
       },
       "files": {
         "SKILL.md": "sha256:e872b07ef8c314cd29d5c2f6e6deaa6dad99158bdb484808a5f4c134573152ea"
@@ -23,7 +23,7 @@
         "repo": "kpab/claude-fable-5-skills",
         "ref": "main",
         "subdir": "skills/autonomous-continuation",
-        "commit": "cbb485116f0a7bc8d6903aa680baa172f2e2a5a6"
+        "commit": "345ca6a6393f7a07a60527ef6d1b400a3ca073ab"
       },
       "files": {
         "SKILL.md": "sha256:54fe84af8e47aa5cd6d01fcc9ee8fa4de161f02eedbf9c16d20824158a49a460"
@@ -37,10 +37,10 @@
         "repo": "kpab/claude-fable-5-skills",
         "ref": "main",
         "subdir": "skills/effort-calibrator",
-        "commit": "cbb485116f0a7bc8d6903aa680baa172f2e2a5a6"
+        "commit": "345ca6a6393f7a07a60527ef6d1b400a3ca073ab"
       },
       "files": {
-        "SKILL.md": "sha256:96b43ec66160a674a75579612ff9e70f20c61453c379507f3749dd9e15d3ae38"
+        "SKILL.md": "sha256:35f8901a0c2d858139f645cfed37abb2cd22257d6e823c5de10cac67340e9107"
       }
     },
     {
@@ -51,7 +51,7 @@
         "repo": "kpab/claude-fable-5-skills",
         "ref": "main",
         "subdir": "skills/grounded-progress",
-        "commit": "cbb485116f0a7bc8d6903aa680baa172f2e2a5a6"
+        "commit": "345ca6a6393f7a07a60527ef6d1b400a3ca073ab"
       },
       "files": {
         "SKILL.md": "sha256:76c539802fc5b0f2f3f65f282a30a789157739b9b259c252735c3624844827a9"
@@ -65,7 +65,7 @@
         "repo": "kpab/claude-fable-5-skills",
         "ref": "main",
         "subdir": "skills/markdown-memory",
-        "commit": "cbb485116f0a7bc8d6903aa680baa172f2e2a5a6"
+        "commit": "345ca6a6393f7a07a60527ef6d1b400a3ca073ab"
       },
       "files": {
         "SKILL.md": "sha256:777906554143317022f5b612b5b2f9148338b2ace834a009375c0de892b0b1da"
@@ -79,7 +79,7 @@
         "repo": "kpab/claude-fable-5-skills",
         "ref": "main",
         "subdir": "skills/no-gold-plating",
-        "commit": "cbb485116f0a7bc8d6903aa680baa172f2e2a5a6"
+        "commit": "345ca6a6393f7a07a60527ef6d1b400a3ca073ab"
       },
       "files": {
         "SKILL.md": "sha256:2ac5ea6cf646c9782f681f2127b4ff75bef95e0d06faff5d7ad6ea710b135508"
@@ -93,7 +93,7 @@
         "repo": "kpab/claude-fable-5-skills",
         "ref": "main",
         "subdir": "skills/regrounding-summary",
-        "commit": "cbb485116f0a7bc8d6903aa680baa172f2e2a5a6"
+        "commit": "345ca6a6393f7a07a60527ef6d1b400a3ca073ab"
       },
       "files": {
         "SKILL.md": "sha256:fc3fa0fe26874f6d095bf0dff7a543a65f115b25b5ded4ac034e9a7e13d6723a"
@@ -107,7 +107,7 @@
         "repo": "kpab/claude-fable-5-skills",
         "ref": "main",
         "subdir": "skills/scope-guard",
-        "commit": "cbb485116f0a7bc8d6903aa680baa172f2e2a5a6"
+        "commit": "345ca6a6393f7a07a60527ef6d1b400a3ca073ab"
       },
       "files": {
         "SKILL.md": "sha256:71140ea7d079eb09087dd2caf134d116d264fb9ae6f2dd9e92625383f622f78a"
@@ -121,7 +121,7 @@
         "repo": "kpab/claude-fable-5-skills",
         "ref": "main",
         "subdir": "skills/skill-refactorer",
-        "commit": "cbb485116f0a7bc8d6903aa680baa172f2e2a5a6"
+        "commit": "345ca6a6393f7a07a60527ef6d1b400a3ca073ab"
       },
       "files": {
         "SKILL.md": "sha256:1569aa961ddd9dc563323758b31ee54554e3d93969d7b2605f6e5c241f65176c"
@@ -135,7 +135,7 @@
         "repo": "kpab/claude-fable-5-skills",
         "ref": "main",
         "subdir": "skills/subagent-orchestration",
-        "commit": "cbb485116f0a7bc8d6903aa680baa172f2e2a5a6"
+        "commit": "345ca6a6393f7a07a60527ef6d1b400a3ca073ab"
       },
       "files": {
         "SKILL.md": "sha256:497fb9de9de6d8beedcb5ec07a74f0314a0de07feb449679966750aefd7b0ae7"
