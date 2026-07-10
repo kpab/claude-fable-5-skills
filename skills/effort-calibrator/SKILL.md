@@ -11,9 +11,9 @@ On Fable 5, effort is the primary dial trading intelligence against latency and 
 
 | Workload | Start at |
 |---|---|
-| Routine transforms, classification, short edits, chat | `medium` (try `low` if latency matters) |
+| Routine transforms, classification, short edits, chat, subagents | `medium` (try `low` if latency matters) |
 | Most analysis and writing | `high` (the general default) |
-| Coding and agentic/tool-heavy work | `high` (the API default, and Claude Code's default on Fable 5), escalating to `xhigh` for the most capability-sensitive tasks — including workloads that ran at `xhigh` on earlier Opus models, start at `high` |
+| Coding and agentic/tool-heavy work | `high` (the API and Claude Code default on Fable 5) — even for workloads that ran at `xhigh` on earlier Opus models; escalate to `xhigh` only for the most capability-sensitive tasks |
 | Hardest capability-sensitive work: large migrations, multi-day autonomous runs, novel research | `xhigh` |
 | Frontier problems only, where evals show headroom above `xhigh` and token spend is unconstrained | `max` |
 
@@ -33,4 +33,8 @@ Raise effort when:
 
 ## Pipeline pattern
 
-Route by task class, not by a single global setting: a triage step at `low`/`medium` that escalates hard cases to `high`/`xhigh` usually dominates any fixed choice on both cost and quality. Verify with the current API reference before shipping parameter names or values: https://platform.claude.com/docs/en/build-with-claude/effort
+Route by task class, not by a single global setting: a triage step at `low`/`medium` that escalates hard cases to `high`/`xhigh` usually dominates any fixed choice on both cost and quality. For long agentic loops, effort composes with [task budgets](https://platform.claude.com/docs/en/build-with-claude/task-budgets), an advisory token budget for the whole loop.
+
+## API shape
+
+Set effort via `output_config`: `{"output_config": {"effort": "low" | "medium" | "high" | "xhigh" | "max"}}`. Setting `high` is equivalent to omitting the parameter. At `high` and `xhigh`, set a large `max_tokens` — it is a hard limit on total output, thinking plus response text. Verify parameter names and values with the current API reference before shipping: https://platform.claude.com/docs/en/build-with-claude/effort
