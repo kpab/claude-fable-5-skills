@@ -17,7 +17,7 @@ On Fable 5, effort is the primary dial trading intelligence against latency and 
 | Hardest capability-sensitive work: large migrations, multi-day autonomous runs, novel research | `xhigh` |
 | Frontier problems only, where evals show headroom above `xhigh` and token spend is unconstrained | `max` |
 
-`max` is rarely the right answer: on most workloads it adds significant cost for small gains and can tip into overthinking. Reach for it only when `xhigh` has measurably fallen short.
+The signal for `max` is evals showing headroom above `xhigh` on your actual task: on most workloads it adds significant cost for small gains and can tip into overthinking.
 
 ## Adjustment signals
 
@@ -37,4 +37,4 @@ Route by task class, not by a single global setting: a triage step at `low`/`med
 
 ## API shape
 
-Set effort via `output_config`: `{"output_config": {"effort": "low" | "medium" | "high" | "xhigh" | "max"}}`. Setting `high` is equivalent to omitting the parameter. At `high` and `xhigh`, set a large `max_tokens` — it is a hard limit on total output, thinking plus response text. Verify parameter names and values with the current API reference before shipping: https://platform.claude.com/docs/en/build-with-claude/effort
+Set effort via `output_config`: `{"output_config": {"effort": "low" | "medium" | "high" | "xhigh" | "max"}}`. Setting `high` is equivalent to omitting the parameter. `max_tokens` is a hard limit on total output — thinking plus response text — so at higher effort leave enough headroom for extended thinking; short-response workloads may not need a change. Verify parameter names and values with the current API reference before shipping: https://platform.claude.com/docs/en/build-with-claude/effort

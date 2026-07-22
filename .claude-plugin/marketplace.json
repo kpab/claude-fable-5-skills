@@ -8,7 +8,7 @@
     {
       "name": "fable5-skills",
       "description": "10 Fable 5-native Agent Skills — over-planning, gold-plating, fabricated progress, unrequested actions, stalled autonomous runs, and a skill-refactorer for migrating pre-Fable-5 skills.",
-      "version": "1.1.1",
+      "version": "1.1.2",
       "author": { "name": "kpab" },
       "source": "./",
       "category": "development"
