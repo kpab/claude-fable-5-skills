@@ -3,7 +3,7 @@
 本リポジトリの 10 スキルが、Anthropic の公式ドキュメントに照らして妥当かを検証した記録。
 各スキルについて「スキルがどう働くか」→「根拠となる公式ドキュメントの原文引用」→「日本語訳」の順でまとめる。
 
-- 検証日: 2026-07-03
+- 検証日: 2026-07-03(追補: 2026-08-29 — [追補セクション](#追補2026-08-29)を参照)
 - 照合した公式ソース: 末尾の[参照元](#参照元)を参照
 
 ## 検証結果サマリ
@@ -261,6 +261,18 @@ context-budget composure の根拠:
 - 10 スキルすべてが、公式ガイド「Prompting Claude Fable 5」の各セクションと明確に対応しており、多くはガイドが提示するプロンプト例の内容を(独自の文面で)忠実に再構成している。README の「Original text(指示文はすべて書き下ろし)」というポリシーどおり、丸写しではないが趣旨は一致する。
 - 唯一の実質的な食い違いは **`effort-calibrator` にあった「xhigh は Claude Code のデフォルト」という記述**。現行公式ドキュメントでは Fable 5 の Claude Code デフォルト effort は `high` であり、`xhigh` がデフォルトなのは Opus 4.7。移行ガイドの記述から、Opus 4.7/4.8 向けガイダンス(コーディングは `xhigh` から)の持ち越しと確認できたため、検証後にスキル本文と README(英・日)を公式推奨に合わせて修正した(詳細はスキル3の項)。
 - 補足: 公式の Fable 5 紹介ページでは [memory tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool) がサポート機能として挙げられており、`markdown-memory` スキルは API のメモリツールを使わないハーネスでも同じ効果を得るための実装、と位置づけられる。
+
+## 追補(2026-08-29)
+
+現行の公式ドキュメント(Prompting Claude Fable 5 / Effort)に対して再照合を実施した。
+
+- `effort-calibrator` の API 形状(`output_config.effort`、デフォルト `high` は省略時と同一挙動、`max_tokens` は thinking 込みの総出力上限)は現行の Effort ドキュメントと一致を再確認。
+- Effort ドキュメントの「Changing effort mid-conversation」——effort はレンダリングされるプロンプトを変えるため、会話途中の変更は prompt cache のプレフィックスを無効化する——を受け、`effort-calibrator` のパイプラインパターンに「エスカレーションは新規リクエストとして行い、キャッシュに依存する会話内では effort を固定する」注意を追記。
+- 公式ガイドのうち 7/3 検証で参照していなかった 2 セクションをスキルに反映:
+  - 「Give the reason, not only the request」(依頼の背景・意図を渡すと性能が上がる)→ `subagent-orchestration` のハンドオフテンプレートに依頼理由(intent)の項目を追加。
+  - 「Create a send-to-user tool」(長時間非同期エージェントでターンを終えずにユーザーへ逐語のメッセージを届けるクライアント側ツール。定義だけでは呼ばれず、システムプロンプトでの誘導が必要)→ `autonomous-continuation` にハーネス向けセクションとして追記。
+- 「Rare cases of early stopping」の公式リマインダーにある「完了後のフォローアップ提案は可、作業前の許可求めは不可」の区別を `autonomous-continuation` の自律性契約に反映。
+- 「Recommended scaffolding changes」の「Fable 5 はタスク中に学んだことに基づきスキルをその場で更新するのも得意」という記述を `skill-refactorer` の A/B テスト項に反映。
 
 ## 参照元
 
