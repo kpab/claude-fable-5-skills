@@ -21,7 +21,7 @@ Your job: separate what the instruction *protects* from how it *micromanages*, k
    - After: "Edits must be verifiable: keep a way to diff your change against the original before finalizing."
 4. **Tighten the description field.** Triggering logic stays in frontmatter `description`; the body should assume the skill already fired.
 5. **Length check.** A refactored skill is typically 30–60% shorter. If it isn't, re-run step 2 — you kept compensations.
-6. **A/B test.** Run one representative task with the old skill and one with the refactored skill. Compare outputs with the user before declaring victory.
+6. **A/B test.** Run one representative task with the old skill and one with the refactored skill. Compare outputs with the user before declaring victory. Afterward, let Fable 5 keep the skill current — it is good at updating skills on the fly from what it learns in-task.
 
 ## Red flags that mark a line as compensation
 
