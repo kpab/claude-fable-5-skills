@@ -23,4 +23,4 @@ For checking finished work, a separate verifier subagent with a clean context ou
 
 ## Handoff template
 
-A good subagent brief contains exactly: goal (one sentence), inputs (paths/data), definition of done (checkable), constraints (what not to touch), and where to write results. If you can't fill these in, the task isn't ready to delegate.
+A good subagent brief contains exactly: goal with the reason behind it (Fable 5 performs better when it knows why and for whom — intent lets it connect the task to what it finds), inputs (paths/data), definition of done (checkable), constraints (what not to touch), and where to write results. If you can't fill these in, the task isn't ready to delegate.
