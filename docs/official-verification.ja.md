@@ -3,22 +3,22 @@
 本リポジトリの 10 スキルが、Anthropic の公式ドキュメントに照らして妥当かを検証した記録。
 各スキルについて「スキルがどう働くか」→「根拠となる公式ドキュメントの原文引用」→「日本語訳」の順でまとめる。
 
-- 検証日: 2026-07-03
+- 検証日: 2026-07-03(追補: 2026-08-29 — [追補セクション](#追補2026-08-29)を参照)
 - 照合した公式ソース: 末尾の[参照元](#参照元)を参照
 
 ## 検証結果サマリ
 
 | # | スキル | 判定 | 根拠となる公式セクション |
 |---|--------|------|--------------------------|
-| 1 | `skill-refactorer` | ✅ 妥当 | Prompting Claude Fable 5「Recommended scaffolding changes」 |
+| 1 | `skill-refactorer` | ✅ 妥当 | Prompting Claude Fable 5「Recommended scaffolding changes」(スキルのオンザフライ更新の記述を含む) |
 | 2 | `act-when-ready` | ✅ 妥当 | 同「Longer turns by default」 |
-| 3 | `effort-calibrator` | ✅ 妥当(1点の食い違いを検証後に修正済み) | Effort ドキュメント / Claude Code「Model configuration」/ 移行ガイド |
+| 3 | `effort-calibrator` | ✅ 妥当(1点の食い違いを検証後に修正済み) | Effort ドキュメント(「Changing effort mid-conversation」「Best practices」を含む) / Claude Code「Model configuration」/ 移行ガイド |
 | 4 | `no-gold-plating` | ✅ 妥当 | 同「Consider all effort levels」 |
 | 5 | `grounded-progress` | ✅ 妥当 | 同「Ground progress claims during long runs」 |
 | 6 | `scope-guard` | ✅ 妥当 | 同「State the boundaries」 |
-| 7 | `subagent-orchestration` | ✅ 妥当 | 同「Parallel subagents」「Recommended scaffolding changes」 |
+| 7 | `subagent-orchestration` | ✅ 妥当 | 同「Parallel subagents」「Recommended scaffolding changes」「Give the reason, not only the request」 |
 | 8 | `markdown-memory` | ✅ 妥当 | 同「Construct a memory system」 |
-| 9 | `autonomous-continuation` | ✅ 妥当 | 同「Rare cases of early stopping」「Rare cases of context-budget concern」 |
+| 9 | `autonomous-continuation` | ✅ 妥当 | 同「Rare cases of early stopping」「Rare cases of context-budget concern」「Create a send-to-user tool」 |
 | 10 | `regrounding-summary` | ✅ 妥当 | 同「Readability when communicating with the user」「Strong instruction following」 |
 
 READMEの前提となる事実も確認済み:
@@ -66,7 +66,7 @@ READMEの前提となる事実も確認済み:
 
 ## 3. effort-calibrator — effort 設定の選択(検証で1点修正)
 
-**どう働くか:** ワークロード種別ごとの effort 初期値の表と、上げ下げの判断シグナル、triage→escalate のパイプラインパターンを与える。
+**どう働くか:** ワークロード種別ごとの effort 初期値の表と、上げ下げの判断シグナル、triage→escalate のパイプラインパターンを与える。エスカレーションを別リクエストとして行う理由(プロンプトキャッシュ)と、それがバッチパイプライン固有の論点であって対話セッションでは判断シグナルに従ってよいことも含む([追補1](#追補1-会話途中の-effort-変更とプロンプトキャッシュ--effort-calibrator))。
 
 **公式根拠(Fable 5 向けの推奨):**
 
@@ -154,7 +154,7 @@ READMEの前提となる事実も確認済み:
 
 ## 7. subagent-orchestration — 並列サブエージェントの活用
 
-**どう働くか:** 委譲の判断基準(独立性・規模・仕様化可能性)、同一ターンでの並列起動とノンブロッキング協調、コンテキストを持ち越す長寿命サブエージェント、そして「新鮮なコンテキストの検証者サブエージェント」パターンを与える。
+**どう働くか:** 委譲の判断基準(独立性・規模・仕様化可能性)、同一ターンでの並列起動とノンブロッキング協調、コンテキストを持ち越す長寿命サブエージェント、そして「新鮮なコンテキストの検証者サブエージェント」パターンを与える。ハンドオフテンプレートは目標・依頼理由・入力・完了条件・制約・出力先を各1文で埋めさせる([追補2](#追補2-依頼の理由を渡す--subagent-orchestration))。
 
 **公式根拠(能力向上の記述):**
 
@@ -202,7 +202,7 @@ fresh-context verifier(新鮮なコンテキストの検証者)の根拠:
 
 ## 9. autonomous-continuation — 無人実行の完走
 
-**どう働くか:** 無人パイプライン向けの「自律性契約」(可逆なら進む、止まってよいのは破壊的操作・スコープ変更・ユーザーのみが持つ入力の3つ)と、ターン終了前に最終段落を読み返す「turn-ending check」、残りコンテキスト表示への動揺を防ぐ「context-budget composure」を課す。
+**どう働くか:** 無人パイプライン向けの「自律性契約」(可逆なら進む、止まってよいのは破壊的操作・スコープ変更・ユーザーのみが持つ入力の3つ)と、ターン終了前に最終段落を読み返す「turn-ending check」、残りコンテキスト表示への動揺を防ぐ「context-budget composure」を課す。加えて、ターンを終えずにユーザーへ逐語のメッセージを届ける `send_to_user` ツールをハーネス作者向けに案内する([追補3](#追補3-send-to-user-ツール--autonomous-continuation))。
 
 **公式根拠(early stopping の記述):**
 
@@ -262,6 +262,87 @@ context-budget composure の根拠:
 - 唯一の実質的な食い違いは **`effort-calibrator` にあった「xhigh は Claude Code のデフォルト」という記述**。現行公式ドキュメントでは Fable 5 の Claude Code デフォルト effort は `high` であり、`xhigh` がデフォルトなのは Opus 4.7。移行ガイドの記述から、Opus 4.7/4.8 向けガイダンス(コーディングは `xhigh` から)の持ち越しと確認できたため、検証後にスキル本文と README(英・日)を公式推奨に合わせて修正した(詳細はスキル3の項)。
 - 補足: 公式の Fable 5 紹介ページでは [memory tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool) がサポート機能として挙げられており、`markdown-memory` スキルは API のメモリツールを使わないハーネスでも同じ効果を得るための実装、と位置づけられる。
 
+## 追補(2026-08-29)
+
+現行の公式ドキュメント(Prompting Claude Fable 5 / Effort)に対して再照合を実施した。7/3 検証時に参照していなかった記述を 5 点スキルに反映しており、以下では本文と同じく「原文引用」→「日本語訳」→「反映内容」の順に記録する。
+
+### 追補1. 会話途中の effort 変更とプロンプトキャッシュ → `effort-calibrator`
+
+**公式根拠(Effort ドキュメント「Changing effort mid-conversation」):**
+
+> `output_config.effort` is a request-level setting: each request carries its own value, so to run a later part of a conversation at a different effort level, set the new value on the next request. The effort level applies to the whole request. Because effort shapes the rendered prompt, changing it between requests does not preserve cached prefixes from earlier turns; if you rely on prompt caching across a long session, pick an effort level at the start and keep it constant.
+
+*(訳)* `output_config.effort` はリクエスト単位の設定である。各リクエストが自分の値を持つため、会話の後半を別の effort で動かしたければ次のリクエストに新しい値を設定する。effort レベルはリクエスト全体に適用される。effort はレンダリングされるプロンプトを変えるため、リクエスト間で変更すると以前のターンのキャッシュ済みプレフィックスは保たれない。長いセッションでプロンプトキャッシュに依存しているなら、最初に effort レベルを決めて一定に保つこと。
+
+同ドキュメントの Best practices は、この「固定」が動的な調整と両立することを明示している:
+
+> 4. **Consider dynamic effort:** Adjust effort based on task complexity. Simple queries may warrant low effort while agentic coding and complex reasoning benefit from high effort. See the next item before varying it within one conversation.
+> 5. **Hold effort constant within cached conversations:** Changing the effort value between requests invalidates prompt caching, so vary effort across workloads rather than within a conversation that relies on cache hits.
+
+*(訳)* 4. **動的な effort を検討する:** タスクの複雑さに応じて effort を調整する。単純なクエリは低 effort で足り、エージェント的コーディングや複雑な推論は高 effort が有効。ただし1つの会話の中で変える前に次項を読むこと。 5. **キャッシュを使う会話の中では effort を固定する:** リクエスト間で effort 値を変えるとプロンプトキャッシュが無効化されるため、キャッシュヒットに依存する会話の内部ではなく、ワークロードをまたいで effort を変えること。
+
+**反映:** `effort-calibrator` のパイプラインパターンに、エスカレーションは別リクエストとして行う旨と、その理由(triage 側の会話のキャッシュ済みプレフィックスが自分の後続ターン用に保たれる)を追記。あわせて、これがバッチパイプラインの論点であり、対話セッションでは上段の Adjustment signals に従って effort を変えてよいことを明記した——公式の 4 と 5 の並びがこの区別に対応する。なお、エスカレート先のリクエスト自体は effort が変わる以上キャッシュミスになる点も本文に含めている。
+
+### 追補2. 依頼の理由を渡す → `subagent-orchestration`
+
+**公式根拠(「Give the reason, not only the request」):**
+
+> Claude Fable 5 tends to perform better when it understands the intent behind a request: context lets it connect the task to relevant information rather than inferring intent on its own. Provide context about why you're asking, especially for long-running agents drawing on multiple workstreams:
+>
+> I'm working on [the larger task] for [who it's for]. They need [what the output enables]. With that in mind: [request].
+
+*(訳)* Claude Fable 5 は依頼の背後にある意図を理解しているとき、より良い性能を発揮する傾向がある。コンテキストがあれば、自力で意図を推測するのではなく、タスクを関連情報に結びつけられる。なぜ依頼しているのかの背景を与えること。特に複数のワークストリームにまたがる長時間稼働エージェントでは重要である:「私は[より大きなタスク]を[誰のため]に進めている。相手は[この成果物で何ができるようになるか]を必要としている。それを踏まえて: [依頼]」
+
+**反映:** ハンドオフテンプレートの goal 項目に「その背後にある理由」を追加。テンプレートは簡潔なブリーフを定義するものなので、goal と理由それぞれ1文という長さ制約は維持している。
+
+### 追補3. send-to-user ツール → `autonomous-continuation`
+
+**公式根拠(「Create a send-to-user tool」):**
+
+> When running long, asynchronous agents, give the agent a way to surface a message the user must see exactly as written, without ending its turn: a deliverable (a generated code snippet or a drafted message), a progress update with specific numbers, or a direct reply to a question the user asked mid-loop. The tool's input is the message to display; when Claude calls it, render the input directly in your UI and return a simple acknowledgement as the tool result. Tool inputs are never summarized, so the content arrives intact.
+
+*(訳)* 長時間の非同期エージェントを動かすときは、ターンを終えずに、ユーザーが書かれたとおりに見なければならないメッセージを表に出す手段をエージェントに与えること——成果物(生成したコード片や下書きしたメッセージ)、具体的な数値を含む進捗更新、ループの途中でユーザーが投げた質問への直接の回答など。ツールの入力が表示すべきメッセージであり、Claude がそれを呼んだら入力をそのまま UI に描画し、ツール結果としては単純な受領応答を返す。ツール入力は決して要約されないため、内容は無傷で届く。
+
+> Defining the tool is not sufficient on its own; without an instruction in the system prompt, Claude Fable 5 rarely calls it.
+
+*(訳)* ツールを定義するだけでは不十分である。システムプロンプトでの指示がなければ、Claude Fable 5 がそれを呼ぶことはめったにない。
+
+**反映:** `autonomous-continuation` にハーネス向けセクションとして追記。この文書全体がシステムプロンプトへ貼り付けて使われうる(README がそう案内している)ため、見出しを「for the harness author, not the model」とし、モデル自身への指示ではないことを明示した。
+
+### 追補4. スキルのオンザフライ更新 → `skill-refactorer`
+
+**公式根拠(「Recommended scaffolding changes」):**
+
+> **Refactor existing prompts and skills.** Skills developed for prior models are often too prescriptive for Claude Fable 5 and can degrade output quality. Review and consider removing older instructions if default performance is better. Claude Fable 5 also does a good job of updating skills on the fly based on what it learns from the task at hand.
+
+*(訳)* **既存のプロンプトとスキルをリファクタリングする。** 旧モデル向けに開発されたスキルは Claude Fable 5 には過剰に規範的であることが多く、出力品質を劣化させうる。デフォルトの性能の方が良い場合は、古い指示の削除をレビュー・検討すること。また Claude Fable 5 は、手元のタスクから学んだことに基づいてスキルをその場で更新することも得意である。
+
+(スキル1の項で引用したのと同じ箇条書きの最終文。7/3 時点では引用範囲に含めていなかった。)
+
+**反映:** A/B テストの項に追記。ただし公式のこの一文は能力の記述であって、同スキルが課すガードレール(「ユーザーと出力を比較してから完了とする」「ガードレールを黙って落とさない」)を解除するものではないため、同じ規律の下に置く形——編集は提案として出す、ガードレールを黙って落とさない——で書いている。
+
+### 追補5. 完了後のフォローアップ提案 → `autonomous-continuation`
+
+**公式根拠(「Rare cases of early stopping」の自律パイプライン向けシステムリマインダー。スキル9の項では `(…)` で省略していた箇所):**
+
+> For reversible actions that follow from the original request, proceed without asking. Offering follow-ups after the task is done is fine; asking permission after already discussing with the user before doing the work is not.
+
+*(訳)* 元のリクエストから導かれる可逆的なアクションは、確認せずに進めること。タスク完了後にフォローアップを提案するのは構わない。作業前に、ユーザーと既に議論した内容について許可を求めるのは駄目である。
+
+**反映:** 自律性契約に反映。ただし同じリマインダーの turn-ending check は「次のステップのリスト」で終わるターンを未完了と見なすため、そのままでは両者が衝突する。スキル側では、契約側を「完了後に、スコープ外のフォローアップを提案するのは可」、turn-ending check 側を「スコープ内の次ステップのリスト」で終わるならターンは終わっていない、と切り分けて整合させた。
+
+### API 形状の再確認(`effort-calibrator`)
+
+> Setting `effort` to `"high"` produces exactly the same behavior as omitting the `effort` parameter entirely.
+
+*(訳)* `effort` に `"high"` を設定することは、`effort` パラメータを完全に省略するのとまったく同じ挙動になる。
+
+> At `high` and `xhigh`, set a large `max_tokens`: it is a hard limit on total output, thinking plus response text.
+
+*(訳)* `high` と `xhigh` では `max_tokens` を大きく設定すること。これは thinking と応答テキストを合わせた総出力に対する上限である。
+
+`output_config.effort` という API 形状を含め、スキル3の記述は現行ドキュメントと一致していることを再確認した。
+
 ## 参照元
 
 1. [Prompting Claude Fable 5 — Claude Platform Docs](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5) — スキル 1, 2, 4〜10 の主要根拠
@@ -270,4 +351,4 @@ context-budget composure の根拠:
 4. [Model configuration — Claude Code Docs](https://code.claude.com/docs/en/model-config) — Claude Code における各モデルのデフォルト effort(Fable 5 = `high`)、`/effort` コマンド、ultracode
 5. [Migration guide — Claude Platform Docs](https://platform.claude.com/docs/en/about-claude/models/migration-guide) — Opus 4.8 → Fable 5 移行時の effort 再評価(`xhigh` → `high`)
 
-(いずれも 2026-07-03 時点の取得内容に基づく)
+(参照元 1・2 は 2026-08-29 に再取得した内容に基づく。3〜5 は 2026-07-03 時点の取得内容。)

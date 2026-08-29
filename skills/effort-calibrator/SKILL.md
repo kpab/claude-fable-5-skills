@@ -33,7 +33,7 @@ Raise effort when:
 
 ## Pipeline pattern
 
-Route by task class, not by a single global setting: a triage step at `low`/`medium` that escalates hard cases to `high`/`xhigh` usually dominates any fixed choice on both cost and quality. For long agentic loops, effort composes with [task budgets](https://platform.claude.com/docs/en/build-with-claude/task-budgets), an advisory token budget for the whole loop.
+Route by task class, not by a single global setting: a triage step at `low`/`medium` that escalates hard cases to `high`/`xhigh` usually dominates any fixed choice on both cost and quality. Escalate by re-submitting the hard case as a separate request, which leaves the triage conversation's cached prefix intact for its own later turns — effort is part of the rendered prompt, so raising it mid-conversation invalidates that prefix (the escalated call itself misses cache either way). That is a batch-pipeline concern; in an interactive session, follow the adjustment signals above and change effort when they fire. For long agentic loops, effort composes with [task budgets](https://platform.claude.com/docs/en/build-with-claude/task-budgets), an advisory token budget for the whole loop.
 
 ## API shape
 

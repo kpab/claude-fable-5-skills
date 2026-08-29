@@ -1,0 +1,26 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  plugin-validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code@2.1.251
+      # ルートを指定すると marketplace.json だけが検証され skills/ は一切見られないため、
+      # マニフェストとスキルで2ステップに分ける。--strict がないと欠落した description も
+      # マニフェスト間のバージョン不一致も警告どまりで exit 0 になる。
+      - name: Validate manifests
+        run: claude plugin validate . --strict
+      - name: Validate skills
+        run: claude plugin validate ./skills --strict
