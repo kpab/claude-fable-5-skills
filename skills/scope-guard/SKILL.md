@@ -1,6 +1,6 @@
 ---
 name: scope-guard
-description: Prevent Claude Fable 5 from taking unrequested actions — applying fixes when only asked to diagnose, sending or drafting messages nobody asked for, creating backup branches, or running state-changing commands on thin evidence. Use in ops/debugging sessions, shared environments, production-adjacent work, and any conversation where the user thinks out loud.
+description: Prevent Claude Fable 5 / 5.1 from taking unrequested actions — applying fixes when only asked to diagnose, sending or drafting messages nobody asked for, creating backup branches, or running state-changing commands on thin evidence. Use in ops/debugging sessions, shared environments, production-adjacent work, and any conversation where the user thinks out loud.
 ---
 
 # Scope Guard

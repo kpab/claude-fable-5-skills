@@ -1,6 +1,6 @@
 # claude-fable-5-skills
 
-**Claude Fable 5 のための実戦的 Agent Skills 10選** — 旧世代モデルの「お世話」前提ではなく、Claude Fable 5 が実際にどう振る舞うかを起点に設計した、最初のスキルコレクションです。
+**Claude Fable 5 / 5.1 のための実戦的 Agent Skills 10選** — 旧世代モデルの「お世話」前提ではなく、Claude Fable 5 が実際にどう振る舞うかを起点に設計した、最初のスキルコレクションです。
 
 [English README →](README.md)
 
@@ -12,16 +12,16 @@
 
 | # | スキル | 解決する問題 |
 |---|--------|--------------|
-| 1 | [`skill-refactorer`](skills/skill-refactorer/SKILL.md) | **目玉のメタスキル。** Fable 5 以前のスキル/プロンプトを監査し、旧モデルの能力不足を補うための足場(過剰指示)を削除、本物のガードレールだけを残す。 |
+| 1 | [`skill-refactorer`](skills/skill-refactorer/SKILL.md) | **目玉のメタスキル。** Fable 5 以前のスキル/プロンプト(および 5.1 で動かす Fable 5 向けスキル)を監査し、旧モデルの能力不足を補うための足場(過剰指示)を削除、本物のガードレールだけを残す。 |
 | 2 | [`act-when-ready`](skills/act-when-ready/SKILL.md) | 高effort時の過剰計画。確定済み事実の再導出、選ばない選択肢の列挙をやめさせる。 |
-| 3 | [`effort-calibrator`](skills/effort-calibrator/SKILL.md) | ワークロード別の `effort` 設定指針。Fable 5 は低めの effort でも旧モデルの `xhigh` を上回ることが多い。 |
-| 4 | [`no-gold-plating`](skills/no-gold-plating/SKILL.md) | 依頼より大きい差分。頼んでいないリファクタ、投機的な抽象化、起こり得ない状態へのエラー処理を抑止。 |
-| 5 | [`grounded-progress`](skills/grounded-progress/SKILL.md) | 長時間実行の進捗報告をツール実行結果という証拠に紐付ける。「テスト通りました(実行してない)」を根絶。 |
+| 3 | [`effort-calibrator`](skills/effort-calibrator/SKILL.md) | ワークロード別の `effort` 設定指針。Fable 5 は低めの effort でも旧モデルの `xhigh` を上回ることが多い。5.1 では改めてスイープし、会話途中の effort 変更(per-message)を使う。 |
+| 4 | [`no-gold-plating`](skills/no-gold-plating/SKILL.md) | 依頼より大きい差分。頼んでいないリファクタ、投機的な抽象化、起こり得ない状態へのエラー処理、(5.1 で目立つ)変更規模に見合わないテストファイルの追加を抑止。公式は同趣旨の指示で「余計な追加とコミットされたテストが大幅に減り、タスク成功率は変わらない」と報告。 |
+| 5 | [`grounded-progress`](skills/grounded-progress/SKILL.md) | 長時間実行の進捗報告をツール実行結果という証拠に紐付ける。「テスト通りました(実行してない)」を根絶。5.1 の進捗更新を UI に表示するためのハーネス設定も収録。 |
 | 6 | [`scope-guard`](skills/scope-guard/SKILL.md) | 「診断して」≠「直して」。未依頼アクションと、パターンマッチだけを根拠にした状態変更を防ぐ。 |
-| 7 | [`subagent-orchestration`](skills/subagent-orchestration/SKILL.md) | 並列委譲・長寿命ワーカー・自己批判より強い「クリーンな文脈の検証サブエージェント」の型。 |
+| 7 | [`subagent-orchestration`](skills/subagent-orchestration/SKILL.md) | 並列委譲・長寿命ワーカー・自己批判より強い「クリーンな文脈の検証サブエージェント」の型。5.1 でツール呼び出しが 1 ターン 1 回に落ちるのを防ぐ毎ターンのナッジも収録。 |
 | 8 | [`markdown-memory`](skills/markdown-memory/SKILL.md) | Fable 5 が特に活用の上手いファイルベース教訓メモリと、腐らせないための運用規律。 |
-| 9 | [`autonomous-continuation`](skills/autonomous-continuation/SKILL.md) | 「これからXを実行します」で止まる・実行中に許可を求める無人パイプラインの停止対策。コンテキスト残量への動揺対策も収録。 |
-| 10 | [`regrounding-summary`](skills/regrounding-summary/SKILL.md) | 作業を一切見ていない読者に伝わる最終報告。矢印チェーンや独自略語を禁止し、結論から書かせる。 |
+| 9 | [`autonomous-continuation`](skills/autonomous-continuation/SKILL.md) | 「これからXを実行します」で止まる・実行中に許可を求める・一部がブロックされると黙ってタスクを縮める、無人パイプラインの停止対策。コンテキスト残量への動揺対策も収録。 |
+| 10 | [`regrounding-summary`](skills/regrounding-summary/SKILL.md) | 作業を一切見ていない読者に伝わる最終報告。矢印チェーンや独自略語、引用と明示しない出典の再現、段落区切りのない長文を禁止し、結論から書かせる。 |
 
 ## インストール
 
@@ -55,13 +55,13 @@ cp -r claude-fable-5-skills/skills/act-when-ready ~/.claude/skills/
 1. **手順ではなく意図。** Fable 5 は指示に厳密に従うため、ステップバイステップのレシピではなく、達成すべき結果と境界を書く。
 2. **構造的に短い。** 全スキルが1画面に収まる。挙動を変えない行は削除。
 3. **精神論ではなく検証フック。** 正しさが重要な箇所には「気をつける」ではなく具体的なチェック(証拠ルール、ターン終了チェック、差分セルフチェック)を定義。
-4. **本文はすべてオリジナル。** パターンは Anthropic 公開の [Prompting Claude Fable 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5) と独自検証に基づきますが、指示文は全てゼロから書き起こしています。
+4. **本文はすべてオリジナル。** パターンは Anthropic 公開の [Prompting Claude Fable 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5) および [Prompting Claude Fable 5.1](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1) と独自検証に基づきますが、指示文は全てゼロから書き起こしています。
 
 ## ステータスと免責
 
-Fable 5 のリリースは **2026年6月9日**。モデルの理解が進むにつれてスキルも更新されます。再現可能な before/after 付きの Issue・PR を歓迎します。
+Fable 5 のリリースは **2026年6月9日**、Fable 5.1 は **2026年9月1日**。現在は 5.1 が現行の Fable で、Fable 5 は公式ドキュメント上 legacy 扱いです。Anthropic は「既存の Fable 5 向けプロンプトは変更なしで 5.1 でも良好に動く」としつつ、いくつかの挙動差(effort の再スイープ、テストの肥大化、進捗更新の減少、文章の高密度化、ツール呼び出しが 1 ターン 1 回に落ちる現象)を公開しており、本スキル群はそれらを反映済みです。モデルの理解が進むにつれてスキルも更新されます。再現可能な before/after 付きの Issue・PR を歓迎します。
 
-本プロジェクトは非公式のコミュニティプロジェクトであり、Anthropic とは無関係です。本番利用の前に最新のAPIパラメータを[公式ドキュメント](https://platform.claude.com/docs)で確認してください。
+本プロジェクトは非公式のコミュニティプロジェクトであり、Anthropic とは無関係です。本番利用の前に最新のAPIパラメータを[公式ドキュメント](https://platform.claude.com/docs)で確認してください。なお Fable 5.1 には本スキル群の範囲外となる API 側の破壊的変更があります——`tool_choice` の `any` / `tool` 指定が 400 を返す、旧モデルは 5.1 の thinking ブロックを読めない、過去ターンを編集すると後続の thinking ブロックが無効化される——詳細は [What's new in Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1) を参照してください。
 
 ## ライセンス
 

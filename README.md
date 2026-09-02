@@ -1,6 +1,6 @@
 # claude-fable-5-skills
 
-**10 battle-ready Agent Skills for Claude Fable 5** — the first skill collection designed around how Claude Fable 5 actually behaves, not how older models needed to be babysat.
+**10 battle-ready Agent Skills for Claude Fable 5 and 5.1** — the first skill collection designed around how Claude Fable 5 actually behaves, not how older models needed to be babysat.
 
 [日本語版 README はこちら →](README.ja.md)
 
@@ -12,16 +12,16 @@ Works with **Claude Code, Claude Cowork, Cursor, Copilot, Gemini CLI**, and any 
 
 | # | Skill | What it fixes |
 |---|-------|---------------|
-| 1 | [`skill-refactorer`](skills/skill-refactorer/SKILL.md) | **The meta-skill.** Audits your pre-Fable-5 skills/prompts, deletes capability-compensation scaffolding, keeps real guardrails. |
+| 1 | [`skill-refactorer`](skills/skill-refactorer/SKILL.md) | **The meta-skill.** Audits your pre-Fable-5 skills/prompts (and Fable 5 skills now running on 5.1), deletes capability-compensation scaffolding, keeps real guardrails. |
 | 2 | [`act-when-ready`](skills/act-when-ready/SKILL.md) | Over-planning at high effort: re-deriving settled facts, surveying options it won't pursue. |
-| 3 | [`effort-calibrator`](skills/effort-calibrator/SKILL.md) | Picking the right `effort` level per workload; Fable 5 at lower effort often beats older models at `xhigh`. |
-| 4 | [`no-gold-plating`](skills/no-gold-plating/SKILL.md) | Diffs bigger than the ask: unrequested refactors, speculative abstractions, impossible-state error handling. |
-| 5 | [`grounded-progress`](skills/grounded-progress/SKILL.md) | Status reports on long runs must point at tool-result evidence — no more "tests passing" that never ran. |
+| 3 | [`effort-calibrator`](skills/effort-calibrator/SKILL.md) | Picking the right `effort` level per workload; Fable 5 at lower effort often beats older models at `xhigh`, and 5.1 needs its own sweep plus per-message effort changes. |
+| 4 | [`no-gold-plating`](skills/no-gold-plating/SKILL.md) | Diffs bigger than the ask: unrequested refactors, speculative abstractions, impossible-state error handling, and (on 5.1) test files out of proportion to the change — Anthropic reports the scoping instruction cuts extras substantially with no change in task success. |
+| 5 | [`grounded-progress`](skills/grounded-progress/SKILL.md) | Status reports on long runs must point at tool-result evidence — no more "tests passing" that never ran. Includes the harness setting that makes 5.1 progress updates visible. |
 | 6 | [`scope-guard`](skills/scope-guard/SKILL.md) | "Diagnose" ≠ "fix". No unrequested actions, no state changes on pattern-matched evidence. |
-| 7 | [`subagent-orchestration`](skills/subagent-orchestration/SKILL.md) | Parallel delegation, long-lived workers, and fresh-context verifier subagents that out-perform self-critique. |
+| 7 | [`subagent-orchestration`](skills/subagent-orchestration/SKILL.md) | Parallel delegation, long-lived workers, fresh-context verifier subagents that out-perform self-critique, and the per-turn nudge that keeps 5.1 batching tool calls. |
 | 8 | [`markdown-memory`](skills/markdown-memory/SKILL.md) | A file-based lesson memory Fable 5 exploits unusually well — with the maintenance discipline that keeps it useful. |
-| 9 | [`autonomous-continuation`](skills/autonomous-continuation/SKILL.md) | Unattended runs that stall on "I'll now run X" or mid-run permission questions. Includes the context-budget composure pattern. |
-| 10 | [`regrounding-summary`](skills/regrounding-summary/SKILL.md) | Final reports readable by someone who saw none of the work — no arrow chains, no invented abbreviations. |
+| 9 | [`autonomous-continuation`](skills/autonomous-continuation/SKILL.md) | Unattended runs that stall on "I'll now run X" or mid-run permission questions, or quietly shrink a partly blocked task. Includes the context-budget composure pattern. |
+| 10 | [`regrounding-summary`](skills/regrounding-summary/SKILL.md) | Final reports readable by someone who saw none of the work — no arrow chains, no invented abbreviations, no unmarked quotations, no dense unbroken paragraphs. |
 
 ## Install
 
@@ -55,13 +55,13 @@ The other six are standing behavioral rules. A model that is mid-over-planning w
 1. **Intent over procedure.** Fable 5 follows instructions strictly; we state outcomes and boundaries, not step-by-step recipes.
 2. **Short by construction.** Every skill fits on one screen. If a line doesn't change behavior, it's deleted.
 3. **Verification hooks, not vibes.** Where correctness matters, the skill defines a *check* (evidence rule, turn-ending check, diff self-check), not an exhortation to "be careful".
-4. **Original text.** Patterns are informed by Anthropic's public [Prompting Claude Fable 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5) guide and our own testing; all instruction text here is written from scratch.
+4. **Original text.** Patterns are informed by Anthropic's public [Prompting Claude Fable 5](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5) and [Prompting Claude Fable 5.1](https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1) guides and our own testing; all instruction text here is written from scratch.
 
 ## Status & disclaimer
 
-Fable 5 shipped on **2026-06-09**. These skills track a moving target — expect refinements as the community learns the model. Issues and PRs with reproducible before/after examples are very welcome.
+Fable 5 shipped on **2026-06-09**; Fable 5.1 shipped on **2026-09-01** and is now the current Fable, with Fable 5 listed as a legacy model. Anthropic states that existing Fable 5 prompts perform well on 5.1 without changes, and documents a handful of behavior differences; these skills fold those in (effort sweeps, test bloat, fewer progress updates, denser prose, one-call-per-turn loops). Expect further refinements as the community learns the model. Issues and PRs with reproducible before/after examples are very welcome.
 
-This is an unofficial community project, not affiliated with or endorsed by Anthropic. Verify current API parameters against the [official docs](https://platform.claude.com/docs) before production use.
+This is an unofficial community project, not affiliated with or endorsed by Anthropic. Verify current API parameters against the [official docs](https://platform.claude.com/docs) before production use. Fable 5.1 also carries API-level breaking changes outside the scope of these skills — forced `tool_choice` (`any` / `tool`) returns a 400, earlier models cannot read 5.1 thinking blocks, and editing earlier turns invalidates later thinking blocks — see [What's new in Claude Fable 5.1](https://platform.claude.com/docs/en/models/fable-5-1/whats-new-fable-5-1).
 
 ## License
 

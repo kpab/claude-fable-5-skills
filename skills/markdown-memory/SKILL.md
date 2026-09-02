@@ -1,6 +1,6 @@
 ---
 name: markdown-memory
-description: A file-based lesson memory that Claude Fable 5 reads and maintains across sessions. Use for any recurring agent (daily jobs, long projects, team assistants) where the same corrections keep being re-made, and when bootstrapping a new agent from past session history. Fable 5 benefits from recorded lessons noticeably more than prior models did.
+description: A file-based lesson memory that Claude Fable 5 / 5.1 reads and maintains across sessions. Use for any recurring agent (daily jobs, long projects, team assistants) where the same corrections keep being re-made, and when bootstrapping a new agent from past session history. Fable 5 benefits from recorded lessons noticeably more than prior models did.
 ---
 
 # Markdown Memory

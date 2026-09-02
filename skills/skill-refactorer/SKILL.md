@@ -1,11 +1,11 @@
 ---
 name: skill-refactorer
-description: Audit and rewrite existing agent skills, system prompts, and CLAUDE.md files for Claude Fable 5. Use whenever the user mentions migrating, upgrading, porting, or "fixing" a skill or prompt for Fable 5, complains that a previously good skill now produces worse output, or asks why Fable 5 ignores or over-follows old instructions. Also trigger when reviewing any skill written before June 2026.
+description: Audit and rewrite existing agent skills, system prompts, and CLAUDE.md files for Claude Fable 5 / 5.1. Use whenever the user mentions migrating, upgrading, porting, or "fixing" a skill or prompt for Fable 5 or 5.1, complains that a previously good skill now produces worse output, or asks why the model ignores or over-follows old instructions. Also trigger when reviewing any skill written before June 2026, or any skill written for Fable 5 that now runs on Fable 5.1.
 ---
 
-# Skill Refactorer for Claude Fable 5
+# Skill Refactorer for Claude Fable 5 / 5.1
 
-Skills and prompts written for earlier Claude models often encode *capability compensation*: step-by-step hand-holding, exhaustive enumeration of edge cases, and rigid micro-workflows that existed because older models needed them. Fable 5 follows instructions strictly enough that this old scaffolding becomes a straitjacket — the model obeys the obsolete recipe instead of using its own (now better) judgment. The result is output that is *worse* than no skill at all.
+Skills and prompts written for earlier Claude models often encode *capability compensation*: step-by-step hand-holding, exhaustive enumeration of edge cases, and rigid micro-workflows that existed because older models needed them. Fable 5 and 5.1 follow instructions strictly enough that this old scaffolding becomes a straitjacket — the model obeys the obsolete recipe instead of using its own (now better) judgment. The result is output that is *worse* than no skill at all. Fable 5 prompts generally carry over to 5.1 unchanged, but 5.1 narrates less and formats less by default, so lines written to suppress either now cut into what the reader needs.
 
 Your job: separate what the instruction *protects* from how it *micromanages*, keep the former, delete the latter.
 
@@ -21,7 +21,7 @@ Your job: separate what the instruction *protects* from how it *micromanages*, k
    - After: "Edits must be verifiable: keep a way to diff your change against the original before finalizing."
 4. **Tighten the description field.** Triggering logic stays in frontmatter `description`; the body should assume the skill already fired.
 5. **Length check.** A refactored skill is typically 30–60% shorter. If it isn't, re-run step 2 — you kept compensations.
-6. **A/B test.** Run one representative task with the old skill and one with the refactored skill. Compare outputs with the user before declaring victory. Afterward Fable 5 can keep the skill current from what it learns in-task, under these same rules: propose the edit, never drop a guardrail silently.
+6. **A/B test.** Run one representative task with the old skill and one with the refactored skill. Compare outputs with the user before declaring victory. Afterward the model can keep the skill current from what it learns in-task, under these same rules: propose the edit, never drop a guardrail silently.
 
 ## Red flags that mark a line as compensation
 
@@ -29,7 +29,9 @@ Your job: separate what the instruction *protects* from how it *micromanages*, k
 - The same warning repeated in different words
 - Output templates that fix structure the user never asked for
 - "Think step by step", "be careful", "double-check" without a concrete check
-- Instructions to narrate or explain internal reasoning in the response (on Fable 5 this can trigger refusals — remove these entirely)
+- Instructions to narrate or explain internal reasoning in the response (on Fable 5 and 5.1 this can trigger refusals — remove these entirely)
+- Anti-formatting rules aimed at older, bullet-happy models ("no lists", "never bold"). 5.1 already formats sparingly, so these suppress structure the content needs — delete, or replace with a rule saying when a list or heading is appropriate
+- "Hold all findings for the final response" and similar narration suppressors. 5.1 already writes fewer updates between tool calls; remove these before adding anything about progress reporting
 
 ## What NOT to touch
 

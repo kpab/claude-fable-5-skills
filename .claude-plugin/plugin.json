@@ -1,12 +1,12 @@
 {
   "name": "fable5-skills",
-  "version": "1.2.0",
-  "description": "10 Fable 5-native Agent Skills for Claude — fix over-planning, gold-plating, fabricated progress reports, unrequested actions, and stalled autonomous runs. Includes skill-refactorer for migrating pre-Fable-5 skills.",
+  "version": "1.3.0",
+  "description": "10 Fable 5-native Agent Skills for Claude, updated for Fable 5.1 — fix over-planning, gold-plating and test bloat, fabricated progress reports, unrequested actions, stalled autonomous runs, and silent tool loops. Includes skill-refactorer for migrating pre-Fable-5 skills and re-checking Fable 5 skills on 5.1.",
   "author": {
     "name": "kpab"
   },
   "homepage": "https://github.com/kpab/claude-fable-5-skills",
   "repository": "https://github.com/kpab/claude-fable-5-skills",
   "license": "MIT",
-  "keywords": ["claude-fable-5", "agent-skills", "claude-code", "prompt-engineering"]
+  "keywords": ["claude-fable-5", "claude-fable-5-1", "agent-skills", "claude-code", "prompt-engineering"]
 }
