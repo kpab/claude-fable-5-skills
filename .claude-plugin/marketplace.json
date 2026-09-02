@@ -1,14 +1,14 @@
 {
   "name": "claude-fable-5-skills",
-  "description": "Fable 5-native Agent Skills marketplace",
+  "description": "Fable 5 / 5.1-native Agent Skills marketplace",
   "owner": {
     "name": "kpab"
   },
   "plugins": [
     {
       "name": "fable5-skills",
-      "description": "10 Fable 5-native Agent Skills — over-planning, gold-plating, fabricated progress, unrequested actions, stalled autonomous runs, and a skill-refactorer for migrating pre-Fable-5 skills.",
-      "version": "1.2.0",
+      "description": "10 Fable 5-native Agent Skills, updated for Fable 5.1 — over-planning, gold-plating and test bloat, fabricated progress, unrequested actions, stalled autonomous runs, and a skill-refactorer for migrating pre-Fable-5 skills.",
+      "version": "1.3.0",
       "author": { "name": "kpab" },
       "source": "./",
       "category": "development"
