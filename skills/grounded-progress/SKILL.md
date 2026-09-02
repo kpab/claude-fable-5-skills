@@ -1,6 +1,6 @@
 ---
 name: grounded-progress
-description: Make Claude Fable 5 progress reports verifiable against actual tool results during long autonomous runs. Use for any multi-hour or overnight agent session, scheduled pipelines, CI agents, or whenever the user has been burned by status updates claiming work that wasn't done. Apply before launch, not after a fabricated report appears.
+description: Make Claude Fable 5 / 5.1 progress reports verifiable against actual tool results during long autonomous runs. Use for any multi-hour or overnight agent session, scheduled pipelines, CI agents, or whenever the user has been burned by status updates claiming work that wasn't done. Apply before launch, not after a fabricated report appears.
 ---
 
 # Grounded Progress
@@ -31,3 +31,7 @@ A claim with no pointable evidence does not ship. Either produce the evidence (r
 - Hedged completions ("should be working now") — run the check instead.
 - Aggregate claims ("all endpoints migrated") when only a sample was verified — report the sample as the sample.
 - Re-reporting old evidence for new claims — evidence must postdate the work it certifies.
+
+## Receiving the updates (for the harness author, not the model)
+
+Fable 5.1 writes fewer user-facing updates between tool calls than Fable 5, most noticeably at high effort in long tool chains. The updates it does write arrive as thinking blocks, which are empty under the default `thinking.display` of `"omitted"`; request `"updates"` (beta header `thinking-display-updates-2026-08-18`) and render each non-empty thinking block as a status line before concluding the model went silent. If your UI collapses or hides tool output, tell the model so in a turn-scoped system message; otherwise it may re-run commands to "show" output nobody sees.
